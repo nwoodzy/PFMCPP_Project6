@@ -91,12 +91,15 @@ struct U
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            this->y += .3f;
+            this->y += .1f;
             }
             std::cout << "U's y updated value: " << this->y << std::endl;
             return this->y * this->x;
         }
-        return false;
+        else
+        {
+            return 0;
+        }
     }
 };
 
@@ -104,22 +107,26 @@ struct Update
 {
     static float updater(U* that, float* newVal )        //10
     {
-        if ( newVal != nullptr ) 
+        if ( that != nullptr && newVal != nullptr ) 
+        {
+            std::cout << "U's x value: " << that->x << std::endl;
+            that->x = *newVal;
+            std::cout << "U's x updated value: " << that->x << std::endl;
+            while( std::abs(that->y - that->x) > 0.001f )
             {
-                std::cout << "U's x value: " << that->x << std::endl;
-                that->x = *newVal;
-                std::cout << "U's x updated value: " << that->x << std::endl;
-                while( std::abs(that->y - that->x) > 0.001f )
-                {
-                    /*
-                    write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-                    */
-                    that->y += .3f;
-                }
-                std::cout << "U's y updated value: " << that->y << std::endl;
-                return that->y * that->x;
+                /*
+                write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+                */
+                that->y += .1f;
+                std::cout << "Distance between that->y and that->x: " << std::abs(that->y - that->x) << std::endl;
             }
-        return false;
+            std::cout << "U's y updated value: " << that->y << std::endl;
+            return that->y * that->x;
+        }
+        else
+        {
+            return false;
+        }
     }
 };
         
@@ -155,5 +162,5 @@ int main()
     std::cout << "[static func] updater's multiplied values: " << Update::updater( &foo, &updatedValue) << std::endl;                  //11
     
     U bar;
-    std::cout << "updaterCopy barr's multiplied values: " << bar.updaterCopy( &updatedValue ) << std::endl;
+    std::cout << "updaterCopy bar's multiplied values: " << bar.updaterCopy( &updatedValue ) << std::endl;
 }
