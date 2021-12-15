@@ -72,8 +72,6 @@ struct Comp                                //4
         }
         return nullptr;
     }
-        //5
-
 };
 
 struct U
@@ -148,7 +146,6 @@ int main()
 {
     T monday ( 12, "monday" );                                             //6
     T tuesday ( 9 , "tuesday" );                                             //6
-    
     Comp f;                                            //7
     auto* smaller = f.compare( &monday, &tuesday );                              //8
 
@@ -160,7 +157,6 @@ int main()
     U foo;
     float updatedValue = 5.f;
     std::cout << "[static func] updater's multiplied values: " << Update::updater( &foo, &updatedValue) << std::endl;                  //11
-    
     U bar;
     std::cout << "updaterCopy bar's multiplied values: " << bar.updaterCopy( &updatedValue ) << std::endl;
 }
