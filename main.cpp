@@ -86,10 +86,10 @@ struct U
             std::cout << "U's x updated value: " << this->x << std::endl;
             while( std::abs(this->y - this->x) > 0.001f )
             {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            this->y += .1f;
+                /*
+                write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+                */
+                this->y += .1f;
             }
             std::cout << "U's y updated value: " << this->y << std::endl;
             return this->y * this->x;
