@@ -56,46 +56,75 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v, const char* n) : value(v), name(n) {}//1
+    int value;//2 
+    std::string name;//3
 };
 
-struct <#structName1#>                                //4
+struct Comp                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b)
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if ( a != nullptr && b != nullptr )
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float x { 0 }, y { 0 };
+    float updaterCopy(float* newValue)      //12
     {
-        
+        if (newValue != nullptr)
+        {
+            std::cout << "U's x value: " << this->x << std::endl;
+            this->x = *newValue;
+            std::cout << "U's x updated value: " << this->x << std::endl;
+            while( std::abs(this->y - this->x) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+                */
+                this->y += .1f;
+            }
+            std::cout << "U's y updated value: " << this->y << std::endl;
+            return this->y * this->x;
+        }
+        else
+        {
+            return 0;
+        }
     }
 };
 
-struct <#structname2#>
+struct Update
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float updater(U* that, float* newVal )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if ( that != nullptr && newVal != nullptr ) 
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            std::cout << "U's x value: " << that->x << std::endl;
+            that->x = *newVal;
+            std::cout << "U's x updated value: " << that->x << std::endl;
+            while( std::abs(that->y - that->x) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+                */
+                that->y += .1f;
+                std::cout << "Distance between that->y and that->x: " << std::abs(that->y - that->x) << std::endl;
+            }
+            std::cout << "U's y updated value: " << that->y << std::endl;
+            return that->y * that->x;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        else
+        {
+            return false;
+        }
     }
 };
         
@@ -115,17 +144,19 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T monday ( 12, "monday" );                                             //6
+    T tuesday ( 9 , "tuesday" );                                             //6
+    Comp f;                                            //7
+    auto* smaller = f.compare( &monday, &tuesday );                              //8
+
+    if (smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    
-    U <#name3#>;
+    U foo;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
-    
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    std::cout << "[static func] updater's multiplied values: " << Update::updater( &foo, &updatedValue) << std::endl;                  //11
+    U bar;
+    std::cout << "updaterCopy bar's multiplied values: " << bar.updaterCopy( &updatedValue ) << std::endl;
 }
